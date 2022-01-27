@@ -188,6 +188,9 @@
                                                 <rect key="frame" x="37.5" y="0.0" width="322" height="31"/>
                                                 <color key="tintColor" systemColor="systemTealColor"/>
                                                 <color key="thumbTintColor" systemColor="systemYellowColor"/>
+                                                <connections>
+                                                    <action selector="longevitySliderChangedValue:" destination="BYZ-38-t0r" eventType="valueChanged" id="jl3-uX-500"/>
+                                                </connections>
                                             </slider>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="Xct-8G-MHn">
                                                 <rect key="frame" x="96" y="34" width="205.5" height="22"/>
@@ -218,7 +221,7 @@
                                     <constraint firstItem="9F6-df-0TQ" firstAttribute="width" secondItem="vre-TM-zMO" secondAttribute="width" multiplier="0.96" id="5ng-Wh-Jew"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oao-c4-5eN">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oao-c4-5eN">
                                 <rect key="frame" x="83" y="774" width="248" height="44"/>
                                 <color key="backgroundColor" systemColor="systemTealColor"/>
                                 <constraints>
@@ -226,9 +229,10 @@
                                 </constraints>
                                 <color key="tintColor" systemColor="systemYellowColor"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Calculate!">
-                                    <fontDescription key="titleFontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
-                                </buttonConfiguration>
+                                <buttonConfiguration key="configuration" style="plain"/>
+                                <connections>
+                                    <action selector="calculateResetButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m5L-wK-Qpv"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -246,6 +250,24 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Oao-c4-5eN" secondAttribute="bottom" constant="44" id="uKN-6P-5Bh"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="birthDateStackView" destination="NVs-d8-6NM" id="E1t-8t-gPx"/>
+                        <outlet property="birthDateTextField" destination="uDE-SL-48b" id="oOG-kq-mzT"/>
+                        <outlet property="calculateResetButton" destination="Oao-c4-5eN" id="NAS-f0-h7i"/>
+                        <outlet property="countdownContainerView" destination="t0D-RT-rgm" id="MbC-PB-q7i"/>
+                        <outlet property="daysNumberLabel" destination="0mb-n7-oBT" id="fdh-3y-I7c"/>
+                        <outlet property="hoursNumberLabel" destination="d8f-Zj-30v" id="6ar-8d-2YZ"/>
+                        <outlet property="lifeProgressView" destination="jbI-jP-N7Z" id="JRY-Sy-eFd"/>
+                        <outlet property="longevityNumberLabel" destination="1RN-qQ-A8F" id="bFO-zW-eev"/>
+                        <outlet property="longevitySlider" destination="20k-hE-Pib" id="xdG-EB-rrU"/>
+                        <outlet property="longevitySliderNumberLabel" destination="gZQ-ot-iq7" id="fYh-p3-APZ"/>
+                        <outlet property="minutesNumberLabel" destination="zJF-PE-B8B" id="ghR-Wc-we4"/>
+                        <outlet property="monthsNumberLabel" destination="uux-SW-cGp" id="o0B-gR-ROf"/>
+                        <outlet property="secondsNumberLabel" destination="rBr-JE-WDT" id="Ux8-aX-zkC"/>
+                        <outlet property="sliderStackView" destination="9F6-df-0TQ" id="23V-6B-MMI"/>
+                        <outlet property="weeksNumberLabel" destination="Uar-dM-3UF" id="uBI-M8-1l9"/>
+                        <outlet property="yearsNumberLabel" destination="Nht-cN-igq" id="VVf-uD-uwr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
