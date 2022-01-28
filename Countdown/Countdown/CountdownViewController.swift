@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import CoreData
+
+let appDelegate = UIApplication.shared.delegate as? AppDelegate
 
 class CountdownViewController: UIViewController {
     @IBOutlet private weak var longevityNumberLabel: UILabel!
@@ -26,19 +29,20 @@ class CountdownViewController: UIViewController {
     @IBOutlet private weak var calculateResetButton: UIButton!
     
     private var isCalculated: Bool = false
+    private var birthDate: Double?
+    private var longevityScore: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        calculateResetButton.setTitle("Calculate!", for: .normal)
+        longevityScore = 75
+        birthDate = Date().timeIntervalSince1970
+        
         calculateResetButton.layer.cornerRadius = 8
-        birthDateStackView.isHidden = false
-        sliderStackView.isHidden = false
-        countdownContainerView.isHidden = true
         longevitySlider.minimumValue = 0
         longevitySlider.maximumValue = 123
-        longevitySlider.value = 75
-        longevityNumberLabel.text = "75"
-        longevitySliderNumberLabel.text = "75"
+        longevitySlider.value = Float(longevityScore!)
+        longevityNumberLabel.text = "\(longevityScore!)"
+        longevitySliderNumberLabel.text = "\(longevityScore!)"
         lifeProgressView.progress = 0.75
         
     }
@@ -48,21 +52,32 @@ class CountdownViewController: UIViewController {
     }
     
     @IBAction func calculateResetButtonTapped(_ sender: Any) {
-        if isCalculated == false {
-            isCalculated.toggle()
-            calculateResetButton.setTitle("Reset", for: .normal)
-            birthDateStackView.isHidden = true
-            sliderStackView.isHidden = true
-            countdownContainerView.isHidden = false
-            
-            longevityNumberLabel.text = "\(Int(longevitySlider.value))"
-        } else {
-            isCalculated.toggle()
-            calculateResetButton.setTitle("Calculate!", for: .normal)
-            birthDateStackView.isHidden = false
-            sliderStackView.isHidden = false
-            countdownContainerView.isHidden = true
+        save { complete in
+            if complete {
+                isCalculated ? changeViewToCalculate() : changeViewToCountdown()
+                birthDateStackView.isHidden = isCalculated
+                sliderStackView.isHidden = isCalculated
+                countdownContainerView.isHidden = !isCalculated
+            } else {
+                print("display error alert")
+            }
         }
+    }
+    
+    func setupInitialView() {
+        isCalculated ? changeViewToCalculate() : changeViewToCountdown()
+    }
+    
+    func changeViewToCountdown() {
+        isCalculated.toggle()
+        calculateResetButton.setTitle("Reset", for: .normal)
+        longevityScore = Int(longevitySlider.value)
+        longevityNumberLabel.text = "\(longevityScore!)"
+    }
+    
+    func changeViewToCalculate() {
+        isCalculated.toggle()
+        calculateResetButton.setTitle("Calculate!", for: .normal)
     }
     
     func avenirFont(size: CGFloat) -> UIFont {
@@ -71,5 +86,28 @@ class CountdownViewController: UIViewController {
         }
         return avenirFont
     }
+    
+    func save(completion: (_: Bool) -> ()) {
+        guard let context = appDelegate?.persistentContainer.viewContext,
+              let birthDate = birthDate,
+              let longevityScore = longevityScore
+        else {
+            return
+        }
+        
+        let longevity = Longevity(context: context)
+        longevity.birthDate = birthDate
+        longevity.longevityScore = Int32(longevityScore)
+        
+        do {
+            try context.save()
+            completion(true)
+        } catch {
+            debugPrint("Could not save: \(error.localizedDescription)")
+            completion(false)
+        }
+    }
+    
+    
 }
 
